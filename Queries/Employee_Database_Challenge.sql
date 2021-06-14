@@ -1,3 +1,4 @@
+--DELIVERABLE 1
 -- Number of retiring employees by title.
 SELECT e.emp_no,
 	e.first_name,
@@ -30,3 +31,22 @@ INTO retiring_titles
 FROM unique_titles as ut
 GROUP BY title
 ORDER BY count DESC;
+
+--DELIVERABLE 2
+--Create a table to determine which employees are eligible for the mentorship program
+SELECT DISTINCT ON (e.emp_no) e.emp_no,
+	e.first_name,
+	e.last_name,
+	e.birth_date,
+	de.from_date,
+	de.to_date,
+	t.title
+-- INTO mentorship_eligibility
+FROM employees as e
+	JOIN dept_employees as de
+	ON (e.emp_no = de.emp_no)
+	JOIN titles as t
+	ON (e.emp_no = t.emp_no)
+	WHERE (de.to_date = '9999-01-01')
+	AND (e.birth_date BETWEEN '1965-01-01' AND '1965-12-31')
+ORDER BY emp_no
